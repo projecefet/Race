@@ -4,16 +4,16 @@
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "RACE TIME");  //abrir a janela
-    sf::Texture texture;
-    sf::Event event;
+    sf::Texture textura;
+    sf::Event evento;
 
-    if (!texture.loadFromFile("menu.png")) //conferir se a imagem foi carregada
+    if (!textura.loadFromFile("menu.png")) //conferir se a imagem foi carregada
     {
         std::cout << "Erro!!!!!!!!";
         return 1;
     }
 
-    sf::Sprite image(texture);
+    sf::Sprite image(textura);
     image.setPosition(0, 0);
 
     sf::FloatRect botaoArea(875, 610, 700, 217);
@@ -23,19 +23,19 @@ int main()
     //buttonRect.setFillColor(sf::Color::White);
 
     while (window.isOpen()){
-        while (window.pollEvent(event))
+        while (window.pollEvent(evento))
         {
-            if (event.type == sf::Event::Closed)
+            if (evento.type == sf::Evento::Closed)
                 window.close();
 
-            if (event.type == sf::Event::MouseButtonPressed)
+            if (evento.type == sf::Evento::MouseButtonPressed)
             {
-                if (event.mouseButton.button == sf::Mouse::Left)
+                if (evento.mouseButton.button == sf::Mouse::Left)
                 {
                     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                     if (botaoArea.contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)))
                     {
-                        texture.loadFromFile("codigotto.png");
+                        textura.loadFromFile("codigotto.png");
                     }
                 }
             }
