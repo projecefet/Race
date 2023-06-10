@@ -1,11 +1,3 @@
-/*
- * main.cpp
- *
- *  Created on: 09 de Junho 2023
- *      Author: Vinicius Candido
- */
-
-
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
