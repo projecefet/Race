@@ -80,16 +80,16 @@ public:
 		case Personagem_Mario:
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-				position.y = position.y - 4;
+				position.y = position.y - 3;
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-				position.y = position.y + 4;
+				position.y = position.y + 3;
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-				position.x = position.x + 4;
+				position.x = position.x + 3;
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-				position.x = position.x - 4;
+				position.x = position.x - 3;
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
 					&& sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
@@ -100,16 +100,16 @@ public:
 		case Personagem_Peach:
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-				position.y = position.y - 4;
+				position.y = position.y - 3;
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-				position.y = position.y + 4;
+				position.y = position.y + 3;
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-				position.x = position.x + 4;
+				position.x = position.x + 3;
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-				position.x = position.x - 4;
+				position.x = position.x - 3;
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)
 					&& sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
@@ -167,7 +167,7 @@ public:
 				}
 			}
 			break;
-			
+
 		case Personagem_Peach:
 					if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 						if (sprite.getRotation() != 0) {
@@ -249,12 +249,12 @@ int main() {
 
 	sf::RenderWindow window(sf::VideoMode(960, 540), "RACE",
 			sf::Style::Titlebar | sf::Style::Close);
-	window.setFramerateLimit(20);
+	window.setFramerateLimit(60);
 
 	float tempo = 1.0;
 
 	Texture texturaMario;
-	texturaMario.loadFromFile("assets/mario.png");
+	texturaMario.loadFromFile("assets/carros/mario.png");
 	Sprite Mario;
 	Mario.setTexture(texturaMario);
 
@@ -265,7 +265,7 @@ int main() {
 	Player1.montaPlayer(Mario);
 
 	Texture texturaPeach;
-	texturaPeach.loadFromFile("assets/peach.png");
+	texturaPeach.loadFromFile("assets/carros/peach.png");
 	Sprite Peach;
 	Peach.setTexture(texturaPeach);
 
@@ -384,4 +384,3 @@ int main() {
 
 	return 0;
 }
-
