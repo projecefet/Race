@@ -1,6 +1,5 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include <queue>
 #include "header.hpp"
 
 using namespace std;
