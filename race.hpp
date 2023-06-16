@@ -10,7 +10,6 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include <queue>
 
 using namespace std;
 using sf::Color;
