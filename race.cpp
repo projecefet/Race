@@ -1,5 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <queue>
+#include "header.hpp"
 
 using namespace std;
 using sf::Color;
@@ -7,217 +9,6 @@ using sf::Texture;
 using sf::Sprite;
 using sf::Vector2f;
 
-/*
- class Bolinha {
-
- public:
- int tamanho;
- int posX, posY;
- int velY, velX;
- Color cor;
-
- Bolinha() {
- tamanho = 10;
- posX = 320;
- posY = 240;
- velY = -5;
- velX = 5;
- cor = Color::Blue;
- }
-
- Bolinha(int tamanho, int posX, int posY, int velX, int velY, Color cor) {
- this->tamanho = tamanho;
- this->posX = posX;
- this->posY = posY;
- this->velX = velX;
- this->velY = velY;
- this->cor = cor;
- }
-
- };
-
- class Retangulo {
- public:
- float tamanho;
- int posX, posY;
- Color cor;
-
- Retangulo(float tamanho, int posX, int posY, Color cor) {
- this->tamanho = tamanho;
- this->posX = posX;
- this->posY = posY;
- this->cor = cor;
- }
- };
- */
-enum personagem {
-	Personagem_Mario, Personagem_Peach
-};
-class Player {
-public:
-
-	Sprite sprite;
-	float escala;
-	Vector2f position;
-
-	Player(Sprite &sprite, float escala, Vector2f position) {
-
-		this->sprite = sprite;
-		this->escala = escala;
-		this->position = position;
-	}
-
-	void montaPlayer(Sprite &sprite) {
-		sf::FloatRect bounds = sprite.getLocalBounds();
-
-		sprite.setOrigin(bounds.width / 2, bounds.height / 2);
-		sprite.setScale(escala, escala);
-		sprite.setPosition(position);
-	}
-
-	void setNewPosition(personagem personagem) {
-		switch (personagem) {
-		case Personagem_Mario:
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-				position.y = position.y - 3;
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-				position.y = position.y + 3;
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-				position.x = position.x + 3;
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-				position.x = position.x - 3;
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
-					&& sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-				position.y;
-			}
-			break;
-
-		case Personagem_Peach:
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-				position.y = position.y - 3;
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-				position.y = position.y + 3;
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-				position.x = position.x + 3;
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-				position.x = position.x - 3;
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)
-					&& sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-				position.y;
-			}
-			break;
-		}
-	}
-
-	void setRotation(Sprite &sprite, personagem personagem) {
-		switch (personagem) {
-		case Personagem_Mario:
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-				if (sprite.getRotation() != 0) {
-					sprite.setRotation(0);
-				}
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-				if (sprite.getRotation() != 180) {
-					sprite.setRotation(180);
-				}
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-				if (sprite.getRotation() != 90) {
-					sprite.setRotation(90);
-				}
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-				if (sprite.getRotation() != 270) {
-					sprite.setRotation(270);
-				}
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
-					&& sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-				if (sprite.getRotation() != 315) {
-					sprite.setRotation(315);
-				}
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
-					&& sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-				if (sprite.getRotation() != 45) {
-					sprite.setRotation(45);
-				}
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
-					&& sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-				if (sprite.getRotation() != 225) {
-					sprite.setRotation(225);
-				}
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
-					&& sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-				if (sprite.getRotation() != 135) {
-					sprite.setRotation(135);
-				}
-			}
-			break;
-
-		case Personagem_Peach:
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-						if (sprite.getRotation() != 0) {
-							sprite.setRotation(0);
-						}
-					}
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-						if (sprite.getRotation() != 180) {
-							sprite.setRotation(180);
-						}
-					}
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-						if (sprite.getRotation() != 90) {
-							sprite.setRotation(90);
-						}
-					}
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-						if (sprite.getRotation() != 270) {
-							sprite.setRotation(270);
-						}
-					}
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)
-							&& sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-						if (sprite.getRotation() != 315) {
-							sprite.setRotation(315);
-						}
-					}
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)
-							&& sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-						if (sprite.getRotation() != 45) {
-							sprite.setRotation(45);
-						}
-					}
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)
-							&& sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-						if (sprite.getRotation() != 225) {
-							sprite.setRotation(225);
-						}
-					}
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)
-							&& sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-						if (sprite.getRotation() != 135) {
-							sprite.setRotation(135);
-						}
-					}
-					break;
-		}
-
-	}
-};
 /*
  void define_Velocidade_E_Inverte_Direcao_Bola(int *velX, int *velY, int posX,
  int posY, sf::RenderWindow *window) {
@@ -254,23 +45,25 @@ int main() {
 	float tempo = 1.0;
 
 	Texture texturaMario;
-	texturaMario.loadFromFile("assets/carros/mario.png");
+	texturaMario.loadFromFile("assets/mario.png");
 	Sprite Mario;
 	Mario.setTexture(texturaMario);
 
 	float escala = 1.5;
 
-	Vector2f positionMario(window.getSize().x / 2, window.getSize().y / 2);
-	Player Player1(Mario, escala, positionMario);
+	Vector2f currentPositionPlayer1(window.getSize().x / 2,
+			window.getSize().y / 2);
+	Player Player1(Mario, escala, currentPositionPlayer1);
 	Player1.montaPlayer(Mario);
 
 	Texture texturaPeach;
-	texturaPeach.loadFromFile("assets/carros/peach.png");
+	texturaPeach.loadFromFile("assets/peach.png");
 	Sprite Peach;
 	Peach.setTexture(texturaPeach);
 
-	Vector2f positionPeach(window.getSize().x / 3, window.getSize().y / 3);
-	Player Player2(Peach, escala, positionPeach);
+	Vector2f currentPositionPlayer2(window.getSize().x / 3,
+			window.getSize().y / 3);
+	Player Player2(Peach, escala, currentPositionPlayer2);
 	Player2.montaPlayer(Peach);
 
 	/*
@@ -319,11 +112,19 @@ int main() {
 			}
 		}
 
-		Player1.setNewPosition(Personagem_Mario);
-		Player1.setRotation(Mario, Personagem_Mario);
+		Player1.lastPosition = Player1.currentPosition;
+		Player2.lastPosition = Player2.currentPosition;
 
-		Player2.setNewPosition(Personagem_Peach);
-		Player2.setRotation(Peach, Personagem_Peach);
+		Player1.move(Id_Player1);
+		Player1.setRotation(Mario, Id_Player1);
+
+		Player2.move(Id_Player2);
+		Player2.setRotation(Peach, Id_Player2);
+
+
+		Mario.setPosition(Player1.currentPosition);
+		Peach.setPosition(Player2.currentPosition);
+
 		/*
 		 sf::FloatRect hitbox1 = shapeRetangulo1.getGlobalBounds();
 		 sf::FloatRect hitbox2 = shapeBola1.getGlobalBounds();
@@ -368,15 +169,15 @@ int main() {
 		 shapeBola3.setPosition(bola3.posX, bola3.posY);
 		 */
 
-		Mario.setPosition(Player1.position);
-		Peach.setPosition(Player2.position);
-
 		window.clear();
 		//window.draw(shapeBola1);
 		//window.draw(shapeBola2);
 		//window.draw(shapeBola3);
 		window.draw(Mario);
 		window.draw(Peach);
+
+		cout << "currentPosition (" << Player1.currentPosition.x << ", " << Player1.currentPosition.y << ")" << endl;
+		cout << "lastPosition (" << Player1.lastPosition.x << ", " << Player1.lastPosition.y << ")" << endl;
 		//window.draw(shapeRetangulo1);
 		window.display();
 		sf::sleep(sf::milliseconds(20.0f)); //Aguarda.
