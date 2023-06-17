@@ -5,10 +5,11 @@
  *      Author: ottin
  */
 
-#ifndef HEADER_HPP_
-#define HEADER_HPP_
+#pragma once
 
 #include <SFML/Graphics.hpp>
+#include <stdio.h>
+#include <SFML/Audio.hpp>
 #include <iostream>
 
 using namespace std;
