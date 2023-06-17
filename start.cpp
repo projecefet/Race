@@ -1,51 +1,60 @@
-#include <SFML/Graphics.hpp>
-#include <iostream>
+// CODIGO DA TELA INICIAL
 
-int main()
-{
-    sf::RenderWindow window(sf::VideoMode(960, 540), "RACE TIME");  //abrir a janela
-    sf::Texture texture;
-    sf::Event event;
+#include "race.hpp"
 
-    if (!texture.loadFromFile("menuum.png")) //conferir se a imagem foi carregada
-    {
-        std::cout << "Erro!!!!!!!!";
-        return 1;
-    }
+int main() {
+	bool click, keygame;
+	click = false;
 
-    sf::Sprite image(texture);
-    image.setPosition(0, 0);
+	sf::RenderWindow window(sf::VideoMode(960, 540), "MARIO KART: Super Circuit",
+			sf::Style::Titlebar | sf::Style::Close);
+	sf::Texture imagem;
+	sf::Sprite fundo;
+	sf::RectangleShape mouseplay;
+	sf::Vector2i leituramouse;
+	sf::Vector2f cordenadatual;
 
-    sf::FloatRect botaoArea(440, 287, 356, 115);
-    //sf::RectangleShape butao(sf::Vector2f(botaoArea.width, botaoArea.height)); //botao branco
+	imagem.loadFromFile("assets/menu.png");
+	fundo.setTexture(imagem);
+	mouseplay.setSize(sf::Vector2f(440, 287));
+	mouseplay.setPosition(356, 115);
+	sf::Image image = sf::Image { };
 
-    //butao.setPosition(botaoArea.left, botaoArea.top);
-    //buttao.setFillColor(sf::Color::White);
+	image.loadFromFile("assets/icon.png");
+	window.setIcon(image.getSize().x, image.getSize().y, image.getPixelsPtr());
 
-    while (window.isOpen()){
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
+	while (window.isOpen()) {
+		sf::Event event;
+		leituramouse = sf::Mouse::getPosition(window);
+		cordenadatual = window.mapPixelToCoords(leituramouse);
 
-            if (event.type == sf::Event::MouseButtonPressed)
-            {
-                if (event.mouseButton.button == sf::Mouse::Left)
-                {
-                    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-                    if (botaoArea.contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)))
-                    {
-                        texture.loadFromFile("codigotto.png");
-                    }
-                }
-            }
-        }
+		while (window.pollEvent(event)) {
+			if (event.type == sf::Event::Closed)
+				window.close();
 
-        window.clear();
-        window.draw(image);
-        //window.draw(butao);
-        window.display();
-    }
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && click == false) {
+				click = true;
+			}
+		}
 
-    return 0;
+		if (click == true) {
+			if (mouseplay.getGlobalBounds().contains(cordenadatual)) {
+				keygame = true;
+
+			}
+			click = false;
+		}
+
+		if (keygame == true) {
+
+			jogo(&window);
+		}
+
+		window.clear();
+		window.draw(fundo);
+
+		window.display();
+	}
+
+	return 0;
 }
