@@ -1,12 +1,70 @@
-#include <SFML/Graphics.hpp>
-#include <iostream>
-#include "header.hpp"
+//TELA DO JOGO _ FASE: 1
+#include "race.hpp"
+int jogo(sf::RenderWindow* window){
 
-using namespace std;
-using sf::Color;
-using sf::Texture;
-using sf::Sprite;
-using sf::Vector2f;
+	window->setFramerateLimit(60);
+
+	float tempo = 1.0;
+
+	Texture texturaMario;
+	texturaMario.loadFromFile("assets/Mario.png");
+	Sprite Mario;
+	Mario.setTexture(texturaMario);
+
+	float escala = 1.5;
+
+	Vector2f currentPositionPlayer1(window->getSize().x / 2,window->getSize().y / 2);
+	Player Player1(Mario, escala, currentPositionPlayer1);
+	Player1.montaPlayer(Mario);
+
+	Texture texturaPeach;
+	texturaPeach.loadFromFile("assets/Peach.png");
+	Sprite Peach;
+	Peach.setTexture(texturaPeach);
+
+	Vector2f currentPositionPlayer2(window->getSize().x / 3,window->getSize().y / 3);
+	Player Player2(Peach, escala, currentPositionPlayer2);
+	Player2.montaPlayer(Peach);
+
+	while (window->isOpen()) {
+		sf::Event event;
+		while (window-> pollEvent(event)) {
+			if (event.type == sf::Event::Closed) {
+				window-> close();
+			}
+		}
+
+		Player1.lastPosition = Player1.currentPosition;
+		Player2.lastPosition = Player2.currentPosition;
+
+		Player1.move(Id_Player1);
+		Player1.setRotation(Mario, Id_Player1);
+
+		Player2.move(Id_Player2);
+		Player2.setRotation(Peach, Id_Player2);
+
+
+		Mario.setPosition(Player1.currentPosition);
+		Peach.setPosition(Player2.currentPosition);
+
+		window->clear();
+			//window.draw(shapeBola1);
+			//window.draw(shapeBola2);
+			//window.draw(shapeBola3);
+			window->draw(Mario);
+			window->draw(Peach);
+
+			cout << "currentPosition (" << Player1.currentPosition.x << ", " << Player1.currentPosition.y << ")" << endl;
+			cout << "lastPosition (" << Player1.lastPosition.x << ", " << Player1.lastPosition.y << ")" << endl;
+			//window.draw(shapeRetangulo1);
+			window->display();
+			sf::sleep(sf::milliseconds(20.0f)); //Aguarda.
+		}
+
+		return 0;
+	}
+
+//EU COMENTEI O QUE JA TINHA PQ FIQUEI COM MEDO DE VC PERDER ALGO
 
 /*
  void define_Velocidade_E_Inverte_Direcao_Bola(int *velX, int *velY, int posX,
@@ -34,7 +92,7 @@ using sf::Vector2f;
  return 0;
  }
 
- */
+ /* 
 int main() {
 
 	sf::RenderWindow window(sf::VideoMode(960, 540), "RACE",
@@ -101,7 +159,7 @@ int main() {
 	 shapeBola1.setFillColor(bola1.cor);
 	 shapeBola2.setFillColor(bola2.cor);
 	 shapeBola3.setFillColor(bola3.cor);
-	 */
+	
 
 	while (window.isOpen()) {
 		sf::Event event;
@@ -166,7 +224,7 @@ int main() {
 		 shapeBola1.setPosition(bola1.posX, bola1.posY);
 		 shapeBola2.setPosition(bola2.posX, bola2.posY);
 		 shapeBola3.setPosition(bola3.posX, bola3.posY);
-		 */
+		
 
 		window.clear();
 		//window.draw(shapeBola1);
@@ -184,3 +242,4 @@ int main() {
 
 	return 0;
 }
+*/
