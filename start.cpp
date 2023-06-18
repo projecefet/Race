@@ -40,7 +40,6 @@ int main() {
 		if (click == true) {
 			if (mouseplay.getGlobalBounds().contains(cordenadatual)) {
 				keygame = true;
-
 			}
 			click = false;
 		}
