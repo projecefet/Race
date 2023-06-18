@@ -5,11 +5,10 @@
  *      Author: ottin
  */
 
-#pragma once
+#ifndef RACE_HPP_
+#define RACE_HPP_
 
 #include <SFML/Graphics.hpp>
-#include <stdio.h>
-#include <SFML/Audio.hpp>
 #include <iostream>
 
 using namespace std;
@@ -18,49 +17,11 @@ using sf::Texture;
 using sf::Sprite;
 using sf::Vector2f;
 
-/*
- class Bolinha {
 
- public:
- int tamanho;
- int posX, posY;
- int velY, velX;
- Color cor;
 
- Bolinha() {
- tamanho = 10;
- posX = 320;
- posY = 240;
- velY = -5;
- velX = 5;
- cor = Color::Blue;
- }
+int jogo(sf::RenderWindow *window);
 
- Bolinha(int tamanho, int posX, int posY, int velX, int velY, Color cor) {
- this->tamanho = tamanho;
- this->posX = posX;
- this->posY = posY;
- this->velX = velX;
- this->velY = velY;
- this->cor = cor;
- }
 
- };
-
- class Retangulo {
- public:
- float tamanho;
- int posX, posY;
- Color cor;
-
- Retangulo(float tamanho, int posX, int posY, Color cor) {
- this->tamanho = tamanho;
- this->posX = posX;
- this->posY = posY;
- this->cor = cor;
- }
- };
- */
 enum Id_Player {
 	Id_Player1, Id_Player2
 };
@@ -72,6 +33,8 @@ public:
 	float escala;
 	Vector2f currentPosition;
 	Vector2f lastPosition;
+	sf::FloatRect hitbox;
+	bool touch;
 
 	Player(Sprite &sprite, float escala, Vector2f currentPosition) {
 
@@ -79,17 +42,18 @@ public:
 		this->escala = escala;
 		this->currentPosition = currentPosition;
 		this->lastPosition = currentPosition;
+
 	}
 
-	void montaPlayer(Sprite &sprite) {
-		sf::FloatRect bounds = sprite.getLocalBounds();
+	void montaPlayer() {
+		hitbox = sprite.getLocalBounds();
 
-		sprite.setOrigin(bounds.width / 2, bounds.height / 2);
+		sprite.setOrigin(hitbox.width / 2, hitbox.height / 2);
 		sprite.setScale(escala, escala);
 		sprite.setPosition(currentPosition);
 	}
 
-	void move(Id_Player Id_Player) {
+	void moveByPressing(Id_Player Id_Player) {
 		switch (Id_Player) {
 		case Id_Player1:
 
@@ -114,7 +78,7 @@ public:
 		case Id_Player2:
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-				currentPosition.y =currentPosition.y - 4;
+				currentPosition.y = currentPosition.y - 4;
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 				currentPosition.y = currentPosition.y + 4;
@@ -133,19 +97,16 @@ public:
 		}
 	}
 
+	Vector2f getFramePositions(sf::RenderWindow &window, Sprite &player) {
+		static sf::Vector2f lastPosition;
+		sf::Vector2f currentPosition = player.getPosition();
 
-	Vector2f getFramePositions(sf::RenderWindow& window, Sprite& player)
-	{
-	    static sf::Vector2f lastPosition;
-	    sf::Vector2f currentPosition = player.getPosition();
+		lastPosition = currentPosition;
 
-	    lastPosition = currentPosition;
-
-	    return lastPosition;
+		return lastPosition;
 	}
 
-
-	void setRotation(Sprite &sprite, Id_Player Id_Player) {
+	void setRotation(Id_Player Id_Player) {
 		switch (Id_Player) {
 		case Id_Player1:
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
@@ -242,6 +203,8 @@ public:
 			break;
 		}
 	}
+
+};
 
 class Wall {
 public:
@@ -269,6 +232,6 @@ public:
 
 		return hitbox.intersects(rect1);
 	}
-};
 
-#endif /* HEADER_HPP_ */
+};
+#endif /* RACE_HPP_ */
