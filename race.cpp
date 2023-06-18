@@ -18,24 +18,24 @@ int jogo(sf::RenderWindow *window) {
 	Sprite Mapa1;
 	Mapa1.setTexture(texturaMapa);
 
-	Texture texturaMario;
-	texturaMario.loadFromFile("assets/carros/mario.png");
-	Sprite Mario;
-	Mario.setTexture(texturaMario);
+	Texture texturaPlayer1;
+	texturaPlayer1.loadFromFile("assets/carros/mario.png");
+	Sprite spritePlayer1;
+	spritePlayer1.setTexture(texturaPlayer1);
 
 	float escala = 1.3;
 
 	Vector2f currentPositionPlayer1(144, 300);
-	Player Player1(Mario, escala, currentPositionPlayer1);
+	Player Player1(spritePlayer1, escala, currentPositionPlayer1);
 	Player1.montaPlayer();
 
-	Texture texturaPeach;
-	texturaPeach.loadFromFile("assets/carros/bowser.png");
-	Sprite Peach;
-	Peach.setTexture(texturaPeach);
+	Texture texturaPlayer2;
+	texturaPlayer2.loadFromFile("assets/carros/peach.png");
+	Sprite spritePlayer2;
+	spritePlayer2.setTexture(texturaPlayer2);
 
 	Vector2f currentPositionPlayer2(100, 300);
-	Player Player2(Peach, escala, currentPositionPlayer2);
+	Player Player2(spritePlayer2, escala, currentPositionPlayer2);
 	Player2.montaPlayer();
 
 	Wall map1_wall1(Vector2f(180, 365), Vector2f(600, 10));
@@ -77,27 +77,29 @@ int jogo(sf::RenderWindow *window) {
 		Player1.sprite.setPosition(Player1.currentPosition);
 		Player2.sprite.setPosition(Player2.currentPosition);
 
-		Player1.applyColision(wallList_map1);
-		Player2.applyColision(wallList_map1);
 
-		window->clear();
 
-		window->draw(map1_wall1.shape);
-		window->draw(map1_wall2.shape);
-		window->draw(map1_wall3.shape);
-		window->draw(map1_wall4.shape);
-		window->draw(map1_wall5.shape);
-		window->draw(map1_wall6.shape);
-		window->draw(map1_wall7.shape);
-		window->draw(map1_wall8.shape);
+	Player1.applyColision(wallList_map1);
+	Player2.applyColision(wallList_map1);
 
-		window->draw(Mapa1);
-		window->draw(Player1.sprite);
-		window->draw(Player2.sprite);
+	window->clear();
 
-		window->display();
-		sf::sleep(sf::milliseconds(20.0f)); //Aguarda.
-	}
+	window->draw(map1_wall1.shape);
+	window->draw(map1_wall2.shape);
+	window->draw(map1_wall3.shape);
+	window->draw(map1_wall4.shape);
+	window->draw(map1_wall5.shape);
+	window->draw(map1_wall6.shape);
+	window->draw(map1_wall7.shape);
+	window->draw(map1_wall8.shape);
 
-	return 0;
+	window->draw(Mapa1);
+	window->draw(Player1.sprite);
+	window->draw(Player2.sprite);
+
+	window->display();
+	sf::sleep(sf::milliseconds(20.0f)); //Aguarda.
+}
+
+return 0;
 }
