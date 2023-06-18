@@ -243,6 +243,32 @@ public:
 		}
 	}
 
+class Wall {
+public:
+	Vector2f wallPosition;
+	Vector2f size;
+
+	sf::FloatRect hitbox;
+	sf::RectangleShape shape;
+
+	Wall(Vector2f wallPosition, Vector2f size) {
+
+		this->wallPosition = wallPosition;
+		this->size = size;
+
+		shape.setSize(size);
+		shape.setFillColor(Color::Blue);
+		shape.setPosition(wallPosition);
+
+		hitbox = shape.getGlobalBounds();
+
+	}
+
+	bool checkCollision(const sf::Sprite &sprite1) {
+		sf::FloatRect rect1 = sprite1.getGlobalBounds();
+
+		return hitbox.intersects(rect1);
+	}
 };
 
 #endif /* HEADER_HPP_ */
