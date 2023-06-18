@@ -10,6 +10,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 using sf::Color;
@@ -17,10 +18,35 @@ using sf::Texture;
 using sf::Sprite;
 using sf::Vector2f;
 
-
-
 int jogo(sf::RenderWindow *window);
 
+class Wall {
+public:
+	Vector2f wallPosition;
+	Vector2f size;
+
+	sf::FloatRect hitbox;
+	sf::RectangleShape shape;
+
+	Wall(Vector2f wallPosition, Vector2f size) {
+
+		this->wallPosition = wallPosition;
+		this->size = size;
+
+		shape.setSize(size);
+		shape.setFillColor(Color::Blue);
+		shape.setPosition(wallPosition);
+
+		hitbox = shape.getGlobalBounds();
+
+	}
+
+	bool checkCollision(const sf::Sprite &sprite1) {
+		sf::FloatRect rect1 = sprite1.getGlobalBounds();
+		return hitbox.intersects(rect1);
+	}
+
+};
 
 enum Id_Player {
 	Id_Player1, Id_Player2
@@ -71,7 +97,6 @@ public:
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
 					&& sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-				currentPosition.y;
 			}
 			break;
 
@@ -91,19 +116,9 @@ public:
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)
 					&& sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-				currentPosition.y;
 			}
 			break;
 		}
-	}
-
-	Vector2f getFramePositions(sf::RenderWindow &window, Sprite &player) {
-		static sf::Vector2f lastPosition;
-		sf::Vector2f currentPosition = player.getPosition();
-
-		lastPosition = currentPosition;
-
-		return lastPosition;
 	}
 
 	void setRotation(Id_Player Id_Player) {
@@ -203,35 +218,38 @@ public:
 			break;
 		}
 	}
+	void applyColision(std::vector<Wall> &wallList) {
+		if (wallList[0].checkCollision(sprite)) {
+			currentPosition = lastPosition;
+		}
+		if (wallList[1].checkCollision(sprite)) {
+			currentPosition = lastPosition;
+		}
+
+		if (wallList[2].checkCollision(sprite)) {
+			currentPosition = lastPosition;
+		}
+		if (wallList[3].checkCollision(sprite)) {
+			currentPosition = lastPosition;
+		}
+
+		if (wallList[4].checkCollision(sprite)) {
+			currentPosition = lastPosition;
+		}
+		if (wallList[5].checkCollision(sprite)) {
+			currentPosition = lastPosition;
+		}
+
+		if (wallList[6].checkCollision(sprite)) {
+			currentPosition = lastPosition;
+		}
+		if (wallList[7].checkCollision(sprite)) {
+			currentPosition = lastPosition;
+		}
+	}
 
 };
 
-class Wall {
-public:
-	Vector2f wallPosition;
-	Vector2f size;
 
-	sf::FloatRect hitbox;
-	sf::RectangleShape shape;
 
-	Wall(Vector2f wallPosition, Vector2f size) {
-
-		this->wallPosition = wallPosition;
-		this->size = size;
-
-		shape.setSize(size);
-		shape.setFillColor(Color::Blue);
-		shape.setPosition(wallPosition);
-
-		hitbox = shape.getGlobalBounds();
-
-	}
-
-	bool checkCollision(const sf::Sprite &sprite1) {
-		sf::FloatRect rect1 = sprite1.getGlobalBounds();
-
-		return hitbox.intersects(rect1);
-	}
-
-};
 #endif /* RACE_HPP_ */
