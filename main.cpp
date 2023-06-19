@@ -1,8 +1,10 @@
 // MAIN
 
 #include "race.hpp"
-#include "start.hpp"
 #include "levels.hpp"
+#include <SFML/Graphics.hpp>
+
+void menu(sf::RenderWindow *window, int *janelaControle);
 
 int main() {
 	Levels level;
