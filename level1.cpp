@@ -2,6 +2,8 @@
 
 int jogo(sf::RenderWindow *window) {
 
+	 Coins coins;
+
 	Texture texturaMapa;
 	texturaMapa.loadFromFile("assets/mapas/1.png");
 	Sprite Mapa1;
