@@ -1,6 +1,6 @@
-#include "race.hpp"
+#include "level1.hpp"
 
-int jogo(sf::RenderWindow *window) {
+int level1 (sf::RenderWindow *window) {
 
 	 Coins coins;
 
@@ -50,8 +50,8 @@ int jogo(sf::RenderWindow *window) {
 	Player1.sprite.setPosition(Player1.currentPosition);
 	Player2.sprite.setPosition(Player2.currentPosition);
 
-	Player1.applyColision(wallList_mapl);
-	Player2.applyColision(wallList_mapl);
+	Player1.applyCollision(wallList_mapl);
+	Player2.applyCollision(wallList_mapl);
 
 	for (int i = 0; i <= wallList_mapl.size() - 1; i++){
 		window->draw(wallList_mapl.at(i).shape);
