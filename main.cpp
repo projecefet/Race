@@ -1,7 +1,8 @@
 // MAIN
 
-#include "race.hpp"
+
 #include "levels.hpp"
+#include "level1.hpp"
 #include <SFML/Graphics.hpp>
 
 void menu(sf::RenderWindow *window, int *janelaControle);
@@ -38,7 +39,7 @@ int main() {
 			button03.render(&window);
 			break;
 		case 2:
-			jogo(&window);
+			level1(&window);
 			break;
 		}
 
@@ -47,4 +48,3 @@ int main() {
 
 	return 0;
 }
-
