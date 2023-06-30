@@ -1,16 +1,15 @@
 #include "level1.hpp"
 
+
 int level1 (sf::RenderWindow *window) {
 
-	 Coins coins;
-
 	Texture texturaMapa;
-	texturaMapa.loadFromFile("assets/mapas/1.png");
+	texturaMapa.loadFromFile("assets/maps/1.png");
 	Sprite Mapa1;
 	Mapa1.setTexture(texturaMapa);
 
 	Texture texturaPlayer1;
-	texturaPlayer1.loadFromFile("assets/carros/mario.png");
+	texturaPlayer1.loadFromFile("assets/cars/mario.png");
 	Sprite spritePlayer1;
 	spritePlayer1.setTexture(texturaPlayer1);
 
@@ -20,7 +19,7 @@ int level1 (sf::RenderWindow *window) {
 	static Player Player1(spritePlayer1, escala, currentPositionPlayer1);
 
 	Texture texturaPlayer2;
-	texturaPlayer2.loadFromFile("assets/carros/peach.png");
+	texturaPlayer2.loadFromFile("assets/cars/peach.png");
 	Sprite spritePlayer2;
 	spritePlayer2.setTexture(texturaPlayer2);
 
