@@ -1,9 +1,4 @@
-/*
- * levels.hpp
- *
- *  Created on: 19 de jun. de 2023
- *      Author: 2306m
- */
+// TELA DE NIVEIS - HPP
 
 #ifndef LEVELS_HPP_
 #define LEVELS_HPP_
@@ -39,4 +34,4 @@ public:
 	void render(sf::RenderWindow *window);
 };
 
-#endif /* LEVELS_HPP_ */
+#endif
