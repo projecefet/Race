@@ -1,6 +1,5 @@
 // MAIN
 
-
 #include "levels.hpp"
 #include "level1.hpp"
 #include <SFML/Graphics.hpp>
@@ -8,10 +7,12 @@
 void menu(sf::RenderWindow *window, int *janelaControle);
 
 int main() {
+	std::setbuf(stdout, NULL);
+
 	Levels level;
-	StarButton button01(0, sf::Vector2f(90, 190), 0);
-	StarButton button02(0, sf::Vector2f(90, 280), 1);
-	StarButton button03(0, sf::Vector2f(90, 370), 2);
+	StarButton button01(0, sf::Vector2f(90, 190), 1);
+	StarButton button02(2, sf::Vector2f(90, 280), 0);
+	StarButton button03(3, sf::Vector2f(90, 370), 2);
 	int janelaControle = 0;
 
 	sf::RenderWindow window(sf::VideoMode(960, 540),
@@ -27,7 +28,6 @@ int main() {
 		}
 
 		window.clear();
-
 		switch (janelaControle) {
 		case 0:
 			menu(&window, &janelaControle);
@@ -37,6 +37,12 @@ int main() {
 			button01.render(&window);
 			button02.render(&window);
 			button03.render(&window);
+			if(button01.didGetClicked(&window)) {
+				janelaControle = 2;
+			}
+			button02.didGetClicked(&window);
+			button03.didGetClicked(&window);
+
 			break;
 		case 2:
 			level1(&window);
