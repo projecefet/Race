@@ -1,9 +1,4 @@
-/*
- * level1.hpp
- *
- *  Created on: 29 de jun. de 2023
- *      Author: 2306m
- */
+// PRIMEIRA FASE - HPP
 
 #ifndef LEVEL1_HPP_
 #define LEVEL1_HPP_
@@ -12,6 +7,4 @@
 
 int level1 (sf::RenderWindow *window);
 
-
-
-#endif /* LEVEL1_HPP_ */
+#endif 
