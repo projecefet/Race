@@ -1,3 +1,4 @@
+// HPP GERAL DO JOGO 
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -9,77 +10,6 @@ using sf::Color;
 using sf::Texture;
 using sf::Sprite;
 using sf::Vector2f;
-
-class Coins
-{
-private:
-    sf::Texture textureCoin;
-    sf::Sprite spriteCoin;
-    std::vector<sf::Sprite> coins;
-    sf::Clock clock;
-    int currentFrame;
-
-public:
-    Coins()
-    {
-        // Carregar textura da moeda
-        if (!textureCoin.loadFromFile("assets/coins/1.png"))
-        {
-            std::cerr << "Erro ao carregar a imagem da moeda." << std::endl;
-        }
-
-        // Configurar sprite da moeda
-        spriteCoin.setTexture(textureCoin);
-        spriteCoin.setScale(0.009f, 0.009f);
-
-        // Gerar moedas aleatoriamente
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<int> posXDist(0, 800);
-        std::uniform_int_distribution<int> posYDist(0, 600);
-        const int numCoins = 10;
-        coins.reserve(numCoins);
-        for (int i = 0; i < numCoins; ++i)
-        {
-            sf::Sprite coinSprite(spriteCoin);
-            coinSprite.setPosition(posXDist(gen), posYDist(gen));
-            coins.push_back(coinSprite);
-        }
-
-        // Configurar animação da moeda
-        currentFrame = 1;
-    }
-
-    void update()
-    {
-        // Atualizar a animação da moeda a cada 0.2 segundos
-        if (clock.getElapsedTime().asSeconds() >= 0.2f)
-        {
-            std::string filename = "assets/coins/" + std::to_string(currentFrame) + ".png";
-            if (!textureCoin.loadFromFile(filename))
-            {
-                std::cerr << "Erro ao carregar a imagem da moeda." << std::endl;
-            }
-            spriteCoin.setTexture(textureCoin);
-            clock.restart();
-
-            // Avançar para o próximo quadro da animação
-            currentFrame++;
-            if (currentFrame > 6)
-            {
-                currentFrame = 1;
-            }
-        }
-    }
-
-    void draw(sf::RenderWindow& window)
-    {
-        for (const auto& coin : coins)
-        {
-            window.draw(coin);
-        }
-    }
-};
 
 enum Id_Player {
     Id_Player1, Id_Player2
