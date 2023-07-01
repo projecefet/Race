@@ -1,5 +1,4 @@
-
-// Levels class
+// TELA DOS NIVEIS 
 
 #include "levels.hpp"
 
@@ -17,13 +16,13 @@ void Levels::render(sf::RenderWindow *window) {
 StarButton::StarButton (int stars, sf::Vector2f initialPos, int btnNum) {
 	this->buttonTexture.loadFromFile("assets/levels/" + std::to_string(stars) + "star.png");
 	this->buttonSprite.setTexture(this->buttonTexture);
-	this->buttonSprite.setScale(sf::Vector2f(0.05, 0.05));
+	this->buttonSprite.setScale(sf::Vector2f(0.20, 0.20));
 
 	this->phaseNumTexture.loadFromFile("assets/levels/" + std::to_string(btnNum) + ".png");
 	this->phaseNumSprite.setTexture(this->phaseNumTexture);
 
 	this->phaseNumSprite.setPosition(initialPos);
-	this->phaseNumSprite.setScale(sf::Vector2f(0.09, 0.09));
+	this->phaseNumSprite.setScale(sf::Vector2f(0.20, 0.20));
 
 	this->buttonSprite.setPosition(initialPos);
 }
