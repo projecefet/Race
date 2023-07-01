@@ -32,6 +32,8 @@ public:
 	~StarButton();
 
 	void render(sf::RenderWindow *window);
+	sf::FloatRect getRect();
+	bool didGetClicked(sf::RenderWindow *window);
 };
 
 #endif
