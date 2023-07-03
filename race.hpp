@@ -1,4 +1,4 @@
-// HPP GERAL DO JOGO 
+// HPP GERAL DO JOGO
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -12,208 +12,237 @@ using sf::Sprite;
 using sf::Vector2f;
 
 enum Id_Player {
-    Id_Player1, Id_Player2
+	Id_Player1, Id_Player2
 };
 
-class Wall {
+class Hitbox {
 public:
-    Vector2f wallPosition;
-    Vector2f size;
+	Vector2f wallPosition;
+	Vector2f size;
 
-    sf::FloatRect hitbox;
-    sf::RectangleShape shape;
+	sf::FloatRect hitbox;
+	sf::RectangleShape shape;
 
-    Wall(Vector2f wallPosition, Vector2f size) {
+	bool touch = false;
 
-        this->wallPosition = wallPosition;
-        this->size = size;
+	Hitbox(Vector2f wallPosition, Vector2f size) {
 
-        shape.setSize(size);
-        shape.setFillColor(Color::Blue);
-        shape.setPosition(wallPosition);
+		this->wallPosition = wallPosition;
+		this->size = size;
 
-        hitbox = shape.getGlobalBounds();
+		shape.setSize(size);
+		shape.setFillColor(Color::Blue);
+		shape.setPosition(wallPosition);
 
-    }
+		hitbox = shape.getGlobalBounds();
 
-    bool checkCollision(const sf::Sprite &sprite1) {
-        sf::FloatRect rect1 = sprite1.getGlobalBounds();
-        return hitbox.intersects(rect1);
-    }
+	}
+
+	bool checkCollision(const sf::Sprite &sprite1) {
+		sf::FloatRect rect1 = sprite1.getGlobalBounds();
+		return hitbox.intersects(rect1);
+	}
 
 };
 
 class Player {
 public:
 
-    Sprite sprite;
-    float escala;
-    Vector2f currentPosition;
-    Vector2f lastPosition;
-    sf::FloatRect hitbox;
-    bool touch;
+	Sprite sprite;
+	float escala;
+	Vector2f currentPosition;
+	Vector2f lastPosition;
+	sf::FloatRect hitbox;
+	bool touch;
+	int lapCounter = 1;
+	sf::Text lapText;
+	vector<int> checkpointCounter = {0, 0, 0, 0};
 
-    Player(Sprite &sprite, float escala, Vector2f currentPosition) {
+	Player(Sprite &sprite, float escala, Vector2f currentPosition) {
 
-        this->sprite = sprite;
-        this->escala = escala;
-        this->currentPosition = currentPosition;
-        this->lastPosition = currentPosition;
+		this->sprite = sprite;
+		this->escala = escala;
+		this->currentPosition = currentPosition;
+		this->lastPosition = currentPosition;
 
-        this->montaPlayer();
-    }
+		this->montaPlayer();
+	}
 
-    void montaPlayer() {
-        hitbox = sprite.getLocalBounds();
+	void montaPlayer() {
+		hitbox = sprite.getLocalBounds();
 
-        sprite.setOrigin(hitbox.width / 2, hitbox.height / 2);
-        sprite.setScale(escala, escala);
-        sprite.setPosition(currentPosition);
-    }
+		sprite.setOrigin(hitbox.width / 2, hitbox.height / 2);
+		sprite.setScale(escala, escala);
+		sprite.setPosition(currentPosition);
+	}
 
-    void moveByPressing(Id_Player Id_Player) {
-        switch (Id_Player) {
-        case Id_Player1:
+	void moveByPressing(Id_Player Id_Player) {
+		switch (Id_Player) {
+		case Id_Player1:
 
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-                currentPosition.y = currentPosition.y - 4;
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                currentPosition.y = currentPosition.y + 4;
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                currentPosition.x = currentPosition.x + 4;
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                currentPosition.x = currentPosition.x - 4;
-            }
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				currentPosition.y = currentPosition.y - 4;
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				currentPosition.y = currentPosition.y + 4;
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+				currentPosition.x = currentPosition.x + 4;
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+				currentPosition.x = currentPosition.x - 4;
+			}
 
-            break;
+			break;
 
-        case Id_Player2:
+		case Id_Player2:
 
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-                currentPosition.y = currentPosition.y - 4;
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-                currentPosition.y = currentPosition.y + 4;
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-                currentPosition.x = currentPosition.x + 4;
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-                currentPosition.x = currentPosition.x - 4;
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)
-                    && sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-            }
-            break;
-        }
-    }
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+				currentPosition.y = currentPosition.y - 4;
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+				currentPosition.y = currentPosition.y + 4;
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+				currentPosition.x = currentPosition.x + 4;
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+				currentPosition.x = currentPosition.x - 4;
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)
+					&& sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+			}
+			break;
+		}
+	}
 
-    void setRotation(Id_Player Id_Player) {
-        switch (Id_Player) {
-        case Id_Player1:
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-                if (sprite.getRotation() != 0) {
-                    sprite.setRotation(0);
-                }
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                if (sprite.getRotation() != 180) {
-                    sprite.setRotation(180);
-                }
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                if (sprite.getRotation() != 90) {
-                    sprite.setRotation(90);
-                }
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                if (sprite.getRotation() != 270) {
-                    sprite.setRotation(270);
-                }
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
-                    && sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                if (sprite.getRotation() != 315) {
-                    sprite.setRotation(315);
-                }
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
-                    && sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                if (sprite.getRotation() != 45) {
-                    sprite.setRotation(45);
-                }
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
-                    && sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                if (sprite.getRotation() != 225) {
-                    sprite.setRotation(225);
-                }
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
-                    && sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                if (sprite.getRotation() != 135) {
-                    sprite.setRotation(135);
-                }
-            }
-            break;
+	void setRotation(Id_Player Id_Player) {
+		switch (Id_Player) {
+		case Id_Player1:
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				if (sprite.getRotation() != 0) {
+					sprite.setRotation(0);
+				}
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				if (sprite.getRotation() != 180) {
+					sprite.setRotation(180);
+				}
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+				if (sprite.getRotation() != 90) {
+					sprite.setRotation(90);
+				}
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+				if (sprite.getRotation() != 270) {
+					sprite.setRotation(270);
+				}
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
+					&& sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+				if (sprite.getRotation() != 315) {
+					sprite.setRotation(315);
+				}
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
+					&& sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+				if (sprite.getRotation() != 45) {
+					sprite.setRotation(45);
+				}
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
+					&& sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+				if (sprite.getRotation() != 225) {
+					sprite.setRotation(225);
+				}
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
+					&& sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+				if (sprite.getRotation() != 135) {
+					sprite.setRotation(135);
+				}
+			}
+			break;
 
-        case Id_Player2:
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-                if (sprite.getRotation() != 0) {
-                    sprite.setRotation(0);
-                }
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-                if (sprite.getRotation() != 180) {
-                    sprite.setRotation(180);
-                }
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-                if (sprite.getRotation() != 90) {
-                    sprite.setRotation(90);
-                }
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-                if (sprite.getRotation() != 270) {
-                    sprite.setRotation(270);
-                }
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)
-                    && sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-                if (sprite.getRotation() != 315) {
-                    sprite.setRotation(315);
-                }
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)
-                    && sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-                if (sprite.getRotation() != 45) {
-                    sprite.setRotation(45);
-                }
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)
-                    && sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-                if (sprite.getRotation() != 225) {
-                    sprite.setRotation(225);
-                }
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)
-                    && sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-                if (sprite.getRotation() != 135) {
-                    sprite.setRotation(135);
-                }
-            }
-            break;
-        }
-    }
+		case Id_Player2:
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+				if (sprite.getRotation() != 0) {
+					sprite.setRotation(0);
+				}
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+				if (sprite.getRotation() != 180) {
+					sprite.setRotation(180);
+				}
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+				if (sprite.getRotation() != 90) {
+					sprite.setRotation(90);
+				}
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+				if (sprite.getRotation() != 270) {
+					sprite.setRotation(270);
+				}
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)
+					&& sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+				if (sprite.getRotation() != 315) {
+					sprite.setRotation(315);
+				}
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)
+					&& sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+				if (sprite.getRotation() != 45) {
+					sprite.setRotation(45);
+				}
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)
+					&& sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+				if (sprite.getRotation() != 225) {
+					sprite.setRotation(225);
+				}
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)
+					&& sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+				if (sprite.getRotation() != 135) {
+					sprite.setRotation(135);
+				}
+			}
+			break;
+		}
+	}
 
-    void applyCollision(std::vector<Wall> &wallList) {
-        for (int i = 0; i <= 7; i++) {
-            if (wallList[i].checkCollision(sprite)) {
-                currentPosition = lastPosition;
-            }
-        }
-    }
+	void applyCollision(std::vector<Hitbox> &wallList) {
+		for (int i = 0; i <= 7; i++) {
+			if (wallList[i].checkCollision(sprite)) {
+				currentPosition = lastPosition;
+			}
+		}
+	}
+
+	bool checkLapCompletion(vector<Hitbox> *checkpoints) {
+		int frameCounter = 0;
+		int soma = 0;
+
+		for (int i = 0; i <= checkpoints->size() - 1; i++) {
+			if (checkpoints->at(i).checkCollision(sprite)) {
+				checkpointCounter[i] = 1;
+			}
+
+		}
+
+		for(int i = 0; i <= checkpointCounter.size() - 1; i++){
+			soma += checkpointCounter[i];
+		}
+
+		if (soma == checkpointCounter.size()) {
+
+			return true;
+		} else {
+			return false;
+		}
+
+	}
 };
