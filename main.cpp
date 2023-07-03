@@ -18,6 +18,7 @@ int main() {
 	sf::RenderWindow window(sf::VideoMode(960, 540),
 			"MARIO KART: Super Circuit",
 			sf::Style::Titlebar | sf::Style::Close);
+	window.setFramerateLimit(60);
 
 	while (window.isOpen()) {
 		sf::Event event;
@@ -37,7 +38,7 @@ int main() {
 			button01.render(&window);
 			button02.render(&window);
 			button03.render(&window);
-			if(button01.didGetClicked(&window)) {
+			if (button01.didGetClicked(&window)) {
 				janelaControle = 2;
 			}
 			button02.didGetClicked(&window);
