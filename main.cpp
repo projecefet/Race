@@ -2,7 +2,9 @@
 
 #include "levels.hpp"
 #include "level1.hpp"
+#include "level2.hpp"
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "wins.hpp"
 
 void menu(sf::RenderWindow *window, int *janelaControle);
@@ -17,6 +19,12 @@ int main() {
 	StarButton button02(2, sf::Vector2f(90, 280), 0);
 	StarButton button03(3, sf::Vector2f(90, 370), 2);
 	int janelaControle = 0;
+
+	static Coins coins;
+	int coinsLeft[10];
+	for (int i = 0; i < 10; i++) {
+		coinsLeft[i] = 1;
+	}
 
 	sf::RenderWindow window(sf::VideoMode(960, 540),
 			"MARIO KART: Super Circuit",
@@ -51,14 +59,14 @@ int main() {
 
 			break;
 		case 2:
-			level1(&window, &frameCounter_Player1, &frameCounter_Player2, &janelaControle);
+			level1(&window, &frameCounter_Player1, &frameCounter_Player2,
+					&coins, coinsLeft, &janelaControle);
 			break;
 		case 3:
 			telamario(&window, &janelaControle);
 		case 4:
 			telabowser(&window, &janelaControle);
 		}
-
 
 		window.display();
 	}
