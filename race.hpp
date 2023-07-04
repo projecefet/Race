@@ -11,82 +11,11 @@ using sf::Texture;
 using sf::Sprite;
 using sf::Vector2f;
 
-class Coins {
-private:
-	sf::Texture coinTextures[6]; // Vetor para armazenar todas as texturas da moeda
-	sf::Sprite spriteCoin;
-	std::vector<sf::Sprite> coins;
-	sf::Clock clock;
-	int currentFrame = 0;
-	int c = 0;
-public:
-	Coins() {
-
-		// Carregar todas as texturas da moeda em um vetor
-		coinTextures[0].loadFromFile("assets/coins/1.png");
-		coinTextures[1].loadFromFile("assets/coins/2.png");
-		coinTextures[2].loadFromFile("assets/coins/3.png");
-		coinTextures[3].loadFromFile("assets/coins/4.png");
-		coinTextures[4].loadFromFile("assets/coins/5.png");
-		coinTextures[5].loadFromFile("assets/coins/6.png");
-		// Configurar sprite da moeda
-		spriteCoin.setTexture(coinTextures[c]);
-		spriteCoin.setScale(0.01, 0.01); // Reduzir a escala da moeda
-
-
-
-
-
-		// Configurar animação da moeda com menos frames
-
-	}
-
-	void updateAnimation() {
-		std::random_device rd;
-		std::mt19937 gen(rd());
-
-		currentFrame++;
-		// Atualizar a animação da moeda com intervalo maior
-		if(currentFrame == 3){
-			if(c < 5){
-				c++;
-			}else{
-				c = 0;
-			}
-		currentFrame = 0;
-		}
-		static bool create = false;
-		static const int numCoins = 10; // Reduzir o número de moedas
-		coins.reserve(numCoins);
-		std::uniform_int_distribution<int> posXDist(0, 800);
-		std::uniform_int_distribution<int> posYDist(0, 600);
-
-		if(create == false){
-		for (int i = 0; i < numCoins; ++i) {
-					sf::Sprite coinSprite(spriteCoin);
-					coinSprite.setPosition(posXDist(gen), posYDist(gen));
-					coins.push_back(coinSprite);
-			}
-			create = true;
-		}
-
-		for (int i = 0; i < numCoins; ++i) {
-				coins[i].setTexture(coinTextures[c],true);
-			}
-	}
-
-	void drawCoins(sf::RenderWindow *window) {
-		for (const auto &coin : coins) {
-			window->draw(coin);
-		}
-	}
-};
-
 enum Id_Player {
 	Id_Player1, Id_Player2
 };
 
-class Wall {
+class Hitbox {
 public:
 	Vector2f wallPosition;
 	Vector2f size;
@@ -94,7 +23,9 @@ public:
 	sf::FloatRect hitbox;
 	sf::RectangleShape shape;
 
-	Wall(Vector2f wallPosition, Vector2f size) {
+	bool touch = false;
+
+	Hitbox(Vector2f wallPosition, Vector2f size) {
 
 		this->wallPosition = wallPosition;
 		this->size = size;
@@ -111,17 +42,25 @@ public:
 		sf::FloatRect rect1 = sprite1.getGlobalBounds();
 		return hitbox.intersects(rect1);
 	}
+
 };
 
 class Player {
 public:
 
+	float secondsCounter = 0;
+
 	Sprite sprite;
 	float escala;
+
 	Vector2f currentPosition;
 	Vector2f lastPosition;
+
 	sf::FloatRect hitbox;
-	bool touch;
+
+	sf::Text lapText;
+	int lapCounter = 1;
+	vector<int> checkpointCounter = { 0, 0, 0, 0 };
 
 	Player(Sprite &sprite, float escala, Vector2f currentPosition) {
 
@@ -279,11 +218,178 @@ public:
 		}
 	}
 
-	void applyCollision(std::vector<Wall> &wallList) {
+	void applyCollision(std::vector<Hitbox> &wallList) {
 		for (int i = 0; i <= 7; i++) {
 			if (wallList[i].checkCollision(sprite)) {
 				currentPosition = lastPosition;
 			}
 		}
 	}
+
+	bool checkLapCompletion(vector<Hitbox> *checkpoints,
+			float *secondsCounter) {
+		int soma = 0;
+
+		for (int i = 0; i < 4; i++) {
+			if (checkpoints->at(i).checkCollision(sprite)
+					&& *secondsCounter >= 1) {
+				checkpointCounter[i] = 1;
+			}
+		}
+
+		for (int i = 0; i < 4; i++) {
+			soma += checkpointCounter[i];
+		}
+
+		if (soma == checkpointCounter.size()) {
+
+			*secondsCounter = 0;
+			for (int i = 0; i < 4; i++) {
+				checkpointCounter[i] = 0;
+			}
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+};
+
+class Coins {
+private:
+	sf::Texture coinTextures[6]; // Vetor para armazenar todas as texturas da moeda
+	sf::Sprite spriteCoin;
+	std::vector<sf::Sprite> coins;
+	std::vector<sf::FloatRect> coinsFloatRect;
+	sf::Clock clock;
+	int currentFrame = 0;
+	int c = 0;
+
+	bool verificarValor(const vector<int> &vetor, int valor) {
+		for (int elemento : vetor) {
+			if (elemento == valor) {
+				return true;
+			}
+		}
+		return false;
+	}
+public:
+	Coins() {
+
+		// Carregar todas as texturas da moeda em um vetor
+		coinTextures[0].loadFromFile("assets/coins/1.png");
+		coinTextures[1].loadFromFile("assets/coins/2.png");
+		coinTextures[2].loadFromFile("assets/coins/3.png");
+		coinTextures[3].loadFromFile("assets/coins/4.png");
+		coinTextures[4].loadFromFile("assets/coins/5.png");
+		coinTextures[5].loadFromFile("assets/coins/6.png");
+		// Configurar sprite da moeda
+		spriteCoin.setTexture(coinTextures[c]);
+		spriteCoin.setScale(0.01, 0.01); // Reduzir a escala da moeda
+
+		// Configurar animação da moeda com menos frames
+
+	}
+
+	void updateAnimation() {
+		std::random_device rd;
+		std::mt19937 gen(rd());
+
+		currentFrame++;
+		// Atualizar a animação da moeda com intervalo maior
+		if (currentFrame == 3) {
+			if (c < 5) {
+				c++;
+			} else {
+				c = 0;
+			}
+			currentFrame = 0;
+		}
+		static bool create = false;
+		static const int numCoins = 10; // Reduzir o número de moedas
+		vector<int> numGerados;
+		coins.reserve(numCoins);
+
+		std::mt19937 randomNumberGenerator((time(nullptr)));
+		std::uniform_int_distribution<int> gap(1, 10);
+
+		int randomNumber = gap(randomNumberGenerator);
+
+		if (create == false) {
+			for (int i = 0; i < numCoins; ++i) {
+				sf::Sprite coinSprite(spriteCoin);
+
+				int randomNumber = gap(randomNumberGenerator);
+
+				if (numGerados.empty()) {
+					numGerados.push_back(randomNumber);
+				} else if (verificarValor(numGerados, randomNumber) == false) {
+					numGerados.push_back(randomNumber);
+				}
+
+				switch (randomNumber) {
+				case 1:
+					coinSprite.setPosition(90, 90);
+					break;
+				case 2:
+					coinSprite.setPosition(130, 300);
+					break;
+				case 3:
+					coinSprite.setPosition(500, 90);
+					break;
+				case 4:
+					coinSprite.setPosition(750, 130);
+					break;
+				case 5:
+					coinSprite.setPosition(850, 300);
+					break;
+				case 6:
+					coinSprite.setPosition(320, 130);
+					break;
+				case 7:
+					coinSprite.setPosition(430, 400);
+					break;
+				case 8:
+					coinSprite.setPosition(700, 445);
+					break;
+				case 9:
+					coinSprite.setPosition(150, 445);
+					break;
+				case 10:
+					coinSprite.setPosition(810, 400);
+					break;
+				}
+
+				coins.push_back(coinSprite);
+				sf::FloatRect hitbox = coinSprite.getLocalBounds();
+				coinsFloatRect.push_back(hitbox);
+
+			}
+			create = true;
+		}
+
+		for (int i = 0; i < numCoins; ++i) {
+			coins[i].setTexture(coinTextures[c], true);
+		}
+	}
+
+	bool areGet(Player player) {
+		for (int i = 0; i < coinsFloatRect.size(); i++) {
+			if (player.hitbox.intersects(coinsFloatRect.at(i))) {
+				cout << "encostou";
+				coins.erase(coins.begin() + i);
+				break;
+
+			}
+		}
+		return false;
+	}
+
+
+	void drawCoins(sf::RenderWindow *window) {
+		for (int i = 0; i < coins.size(); i++) {
+			window->draw(coins[i]);
+		}
+	}
+
 };
