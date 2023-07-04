@@ -6,13 +6,13 @@ using namespace sf;
 
 
 void tocarmusica(Music mus){
-	if (!musica.openFromFile("assets/wins.wav")) {
+	if (!musica.openFromFile("wins.wav")) {
         	cout << "Erro ao carregar o arquivo de música" << std::endl;
         return -1;
     	}
 	music.play();
 	music.setLoop(false);
-	music.setVolume(20.F);
+	music.setVolume(20.0f);
 }
 
 void telabowser(sf::RenderWindow *window, int *janelaControle){
@@ -23,18 +23,12 @@ void telabowser(sf::RenderWindow *window, int *janelaControle){
     	sf::Sprite image;
 	
 
-    texture.loadFromFile("assets/bowser.png");
+    texture.loadFromFile("bowser.png");
     image.setTexture(texture);
     mouseplay.setSize(sf::Vector2f(243, 72));
     mouseplay.setPosition(639, 376);
     Image image = sf::Image { };
 
-	sf::Music music;
-
-	if (!music.openFromFile("assets/wins.wav")){
-        cout << "ERRO AO CARREGAR ARQUIVO DE SOM" << endl;
-        return -1;
-    }
 	
     //sf::FloatRect botaoArea(64, 369, 242, 72);
     //sf::RectangleShape butao(sf::Vector2f(botaoArea.width, botaoArea.height)); //botao branco
@@ -50,11 +44,6 @@ void telabowser(sf::RenderWindow *window, int *janelaControle){
     		 *janelaControle = 1;
          }
      }
-
-	music.play();
-	music.setVolume(20.0f);
-	music.setLoop(false);
-	music.stop();
 	window->draw(image);
 
 }
@@ -67,7 +56,7 @@ void telamario(sf::RenderWindow *window, int *janelaControle){
     sf::Texture texture;
     sf::Sprite image;
 
-    texture.loadFromFile("assets/mario.png");
+    texture.loadFromFile("mario.png");
     image.setTexture(texture);
     mouseplay.setSize(sf::Vector2f(242, 72));
     mouseplay.setPosition(64, 369);
