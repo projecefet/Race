@@ -1,39 +1,56 @@
-// TELA DE NIVEIS - HPP
+// TELA DE NIVEIS - CPP
 
-#ifndef LEVELS_HPP_
-#define LEVELS_HPP_
+#include "levels.hpp"
 
-#include <SFML/Graphics.hpp>
+Levels::Levels() {
+	this->backgroundTexture.loadFromFile("assets/levels/fundolevels.png");
+	this->backgroundSprite.setTexture(this->backgroundTexture);
+}
+Levels::~Levels() {
+}
 
-class Levels {
-private:
-	sf::Texture backgroundTexture;
-	sf::Sprite backgroundSprite;
+void Levels::render(sf::RenderWindow *window) {
+	window->draw(this->backgroundSprite);
+}
 
-public:
-	// Constructors / Destructors
-	Levels();
-	~Levels();
+// Star Button
+StarButton::StarButton(int stars, sf::Vector2f initialPos, int btnNum) {
+	this->buttonTexture.loadFromFile(
+			"assets/levels/" + std::to_string(stars) + "star.png");
+	this->buttonSprite.setTexture(this->buttonTexture);
+	this->buttonSprite.setScale(sf::Vector2f(0.20, 0.20));
 
-	//Funções
-	void render(sf::RenderWindow *window);
-};
+	this->phaseNumTexture.loadFromFile(
+			"assets/levels/" + std::to_string(btnNum) + ".png");
+	this->phaseNumSprite.setTexture(this->phaseNumTexture);
 
-class StarButton {
-private:
-	sf::Texture buttonTexture;
-	sf::Sprite buttonSprite;
+	this->phaseNumSprite.setPosition(initialPos);
+	this->phaseNumSprite.setScale(sf::Vector2f(0.20, 0.20));
 
-	sf::Texture phaseNumTexture;
-	sf::Sprite phaseNumSprite;
+	this->buttonSprite.setPosition(initialPos);
+}
 
-public:
-	StarButton(int stars, sf::Vector2f initialPos, int btnNum);
-	~StarButton();
+StarButton::~StarButton() {
+}
 
-	void render(sf::RenderWindow *window);
-	sf::FloatRect getRect();
-	bool didGetClicked(sf::RenderWindow *window);
-};
+void StarButton::render(sf::RenderWindow *window) {
+	window->draw(this->buttonSprite);
+	window->draw(this->phaseNumSprite);
+}
 
-#endif
+sf::FloatRect StarButton::getRect() {
+	return this->buttonSprite.getGlobalBounds();
+}
+
+bool StarButton::didGetClicked(sf::RenderWindow *window) {
+	sf::Vector2i mousePosI = sf::Mouse::getPosition(*window);
+	sf::Vector2f coord = window->mapPixelToCoords(mousePosI);
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		if (this->buttonSprite.getGlobalBounds().contains(coord)) {
+			return true;
+		}
+	}
+
+	return false;
+}
