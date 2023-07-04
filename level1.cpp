@@ -1,6 +1,7 @@
 // PRIMEIRA FASE - CPP
 
 #include "level1.hpp"
+#include "wins.hpp"
 
 bool level1(sf::RenderWindow *window, int *frameCounter_Player1,
 		int *frameCounter_Player2) {
