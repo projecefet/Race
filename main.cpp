@@ -3,6 +3,7 @@
 #include "levels.hpp"
 #include "level1.hpp"
 #include <SFML/Graphics.hpp>
+#include "wins.hpp"
 
 void menu(sf::RenderWindow *window, int *janelaControle);
 
@@ -50,9 +51,14 @@ int main() {
 
 			break;
 		case 2:
-			level1(&window, &frameCounter_Player1, &frameCounter_Player2);
+			level1(&window, &frameCounter_Player1, &frameCounter_Player2, &janelaControle);
 			break;
+		case 3:
+			telabowser(&window, &janelaControle);
+		case 4:
+			telamario(&window, &janelaControle);
 		}
+
 
 		window.display();
 	}
