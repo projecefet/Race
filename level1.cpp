@@ -2,10 +2,9 @@
 
 #include "level1.hpp"
 
-//#include "wins.hpp"
-
 bool level1(sf::RenderWindow *window, int *frameCounter_Player1,
-		int *frameCounter_Player2, int *janelaControle) {
+		int *frameCounter_Player2, Coins *coins, int (&coinsLeft)[10], int *janelaControle) {
+
 	Texture texturaMapa;
 	texturaMapa.loadFromFile("assets/maps/1.png");
 	Sprite Mapa1;
@@ -44,8 +43,10 @@ bool level1(sf::RenderWindow *window, int *frameCounter_Player1,
 	Player2.lapText.setFillColor(Color::White);
 	Player2.lapText.setPosition(740, 2);
 
-
-	static Coins coins;
+	coins->qtdCoinsCollected.setFont(font);
+	coins->qtdCoinsCollected.setCharacterSize(40);
+	coins->qtdCoinsCollected.setFillColor(Color::Yellow);
+	coins->qtdCoinsCollected.setPosition(410, 2);
 
 	std::vector<Hitbox> wallList_mapl = { Hitbox(Vector2f(180, 365),
 			Vector2f(600, 10)), Hitbox(Vector2f(180, 178), Vector2f(600, 10)),
@@ -76,8 +77,6 @@ bool level1(sf::RenderWindow *window, int *frameCounter_Player1,
 	Player1.applyCollision(wallList_mapl);
 	Player2.applyCollision(wallList_mapl);
 
-	//coins.areGet(Player1);
-
 	if (Player1.checkLapCompletion(&checkpoints, &Player1.secondsCounter)) {
 		Player1.lapCounter++;
 		*frameCounter_Player1 = 0;
@@ -92,20 +91,23 @@ bool level1(sf::RenderWindow *window, int *frameCounter_Player1,
 
 	Player1.lapText.setString(
 			"P 1 Lap " + std::to_string(Player1.lapCounter) + " / 3");
-			if (Player1.lapCounter > 3){
-				*janelaControle = 3;
-				Player1.zeraPlayer();
-				Player2.zeraPlayer();
-			}
+	if (Player1.lapCounter > 3){
+					*janelaControle = 3;
+					Player1.zeraPlayer();
+					Player2.zeraPlayer();
+				}
+
 	Player2.lapText.setString(
 			"P 2 Lap " + std::to_string(Player2.lapCounter) + " / 3");
-			if (Player2.lapCounter > 3){
-				*janelaControle = 4;
-				Player2.zeraPlayer();
-				Player1.zeraPlayer();
-			}
-			std:cout << Player2.lapCounter << "\n";
+	if (Player2.lapCounter > 3){
+					*janelaControle = 4;
+					Player2.zeraPlayer();
+					Player1.zeraPlayer();
+				}
+				std:cout << Player2.lapCounter << "\n";
 
+	coins->qtdCoinsCollected.setString(
+			"Coins " + std::to_string(coins->coinsCollected(coinsLeft)));
 
 	for (int i = 0; i < wallList_mapl.size(); i++) {
 		window->draw(wallList_mapl.at(i).shape);
@@ -123,9 +125,10 @@ bool level1(sf::RenderWindow *window, int *frameCounter_Player1,
 	window->draw(Player2.sprite);
 	window->draw(Player1.lapText);
 	window->draw(Player2.lapText);
+	window->draw(coins->qtdCoinsCollected);
 
-	coins.drawCoins(window);
-	coins.updateAnimation();
+	coins->drawCoins(window, &Player1, &Player2, coinsLeft);
+	coins->updateAnimation();
 
 	return false;
 }
