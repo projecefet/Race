@@ -1,9 +1,11 @@
 // HPP GERAL DO JOGO
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 #include <random>
 #include <vector>
+
 
 using namespace std;
 using sf::Color;
