@@ -1,11 +1,11 @@
 // PRIMEIRA FASE - CPP
 
 #include "level1.hpp"
-#include "wins.hpp"
+
+//#include "wins.hpp"
 
 bool level1(sf::RenderWindow *window, int *frameCounter_Player1,
-		int *frameCounter_Player2) {
-
+		int *frameCounter_Player2, int *janelaControle) {
 	Texture texturaMapa;
 	texturaMapa.loadFromFile("assets/maps/1.png");
 	Sprite Mapa1;
@@ -43,6 +43,7 @@ bool level1(sf::RenderWindow *window, int *frameCounter_Player1,
 	Player2.lapText.setCharacterSize(40);
 	Player2.lapText.setFillColor(Color::White);
 	Player2.lapText.setPosition(740, 2);
+
 
 	static Coins coins;
 
@@ -91,8 +92,19 @@ bool level1(sf::RenderWindow *window, int *frameCounter_Player1,
 
 	Player1.lapText.setString(
 			"P 1 Lap " + std::to_string(Player1.lapCounter) + " / 3");
+			if (Player1.lapCounter > 3){
+				*janelaControle = 3;
+				Player1.zeraPlayer();
+				Player2.zeraPlayer();
+			}
 	Player2.lapText.setString(
 			"P 2 Lap " + std::to_string(Player2.lapCounter) + " / 3");
+			if (Player2.lapCounter > 3){
+				*janelaControle = 4;
+				Player2.zeraPlayer();
+				Player1.zeraPlayer();
+			}
+			std:cout << Player2.lapCounter << "\n";
 
 
 	for (int i = 0; i < wallList_mapl.size(); i++) {
