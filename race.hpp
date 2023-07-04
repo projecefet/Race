@@ -60,7 +60,7 @@ public:
 	sf::FloatRect hitbox;
 
 	sf::Text lapText;
-	int lapCounter = 4;
+	int lapCounter = 1;
 	vector<int> checkpointCounter = { 0, 0, 0, 0 };
 
 	Player(Sprite &sprite, float escala, Vector2f currentPosition) {
