@@ -54,9 +54,9 @@ int main() {
 			level1(&window, &frameCounter_Player1, &frameCounter_Player2, &janelaControle);
 			break;
 		case 3:
-			telabowser(&window, &janelaControle);
-		case 4:
 			telamario(&window, &janelaControle);
+		case 4:
+			telabowser(&window, &janelaControle);
 		}
 
 
