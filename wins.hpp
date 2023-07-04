@@ -4,6 +4,17 @@
 using namespace std;
 using namespace sf;
 
+
+void tocarmusica(Music mus){
+	if (!musica.openFromFile("assets/wins.wav")) {
+        	cout << "Erro ao carregar o arquivo de música" << std::endl;
+        return -1;
+    	}
+	music.play();
+	music.setLoop(false);
+	music.setVolume(20.F);
+}
+
 void telabowser(sf::RenderWindow *window, int *janelaControle){
 	sf::RectangleShape mouseplay;
 	sf::Vector2i leituramouse;
