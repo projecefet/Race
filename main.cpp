@@ -8,6 +8,8 @@ void menu(sf::RenderWindow *window, int *janelaControle);
 
 int main() {
 	std::setbuf(stdout, NULL);
+	int frameCounter_Player1 = 0;
+	int frameCounter_Player2 = 0;
 
 	Levels level;
 	StarButton button01(0, sf::Vector2f(90, 190), 1);
@@ -22,6 +24,8 @@ int main() {
 
 	while (window.isOpen()) {
 		sf::Event event;
+		frameCounter_Player1++;
+		frameCounter_Player2++;
 
 		while (window.pollEvent(event)) {
 			if (event.type == sf::Event::Closed)
@@ -46,7 +50,7 @@ int main() {
 
 			break;
 		case 2:
-			level1(&window);
+			level1(&window, &frameCounter_Player1, &frameCounter_Player2);
 			break;
 		}
 
