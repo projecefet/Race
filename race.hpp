@@ -1,11 +1,9 @@
 // HPP GERAL DO JOGO
 
 #include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
 #include <iostream>
 #include <random>
 #include <vector>
-
 
 using namespace std;
 using sf::Color;
@@ -56,12 +54,13 @@ public:
 	float escala;
 
 	Vector2f currentPosition;
+	Vector2f initialPosition;
 	Vector2f lastPosition;
 
 	sf::FloatRect hitbox;
 
 	sf::Text lapText;
-	int lapCounter = 1;
+	int lapCounter = 4;
 	vector<int> checkpointCounter = { 0, 0, 0, 0 };
 
 	Player(Sprite &sprite, float escala, Vector2f currentPosition) {
@@ -69,6 +68,7 @@ public:
 		this->sprite = sprite;
 		this->escala = escala;
 		this->currentPosition = currentPosition;
+		this->initialPosition = this->currentPosition;
 		this->lastPosition = currentPosition;
 
 		this->montaPlayer();
@@ -80,6 +80,11 @@ public:
 		sprite.setOrigin(hitbox.width / 2, hitbox.height / 2);
 		sprite.setScale(escala, escala);
 		sprite.setPosition(currentPosition);
+	}
+
+	void zeraPlayer() {
+		this->currentPosition = this->initialPosition;
+		this->lapCounter = 1;
 	}
 
 	void moveByPressing(Id_Player Id_Player) {
