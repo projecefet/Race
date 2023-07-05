@@ -3,7 +3,8 @@
 #include "level1.hpp"
 
 bool level1(sf::RenderWindow *window, int *frameCounter_Player1,
-		int *frameCounter_Player2, Coins *coins, int (&coinsLeft)[10], int *janelaControle) {
+		int *frameCounter_Player2, Coins *coins, int (&coinsLeft)[10], bool *ganhar2
+		, bool * ganhar3, int *janelaControle) {
 
 	Texture texturaMapa;
 	texturaMapa.loadFromFile("assets/maps/1.png");
@@ -31,7 +32,7 @@ bool level1(sf::RenderWindow *window, int *frameCounter_Player1,
 	Player2.secondsCounter = *frameCounter_Player2 / 60;
 
 	sf::Font font;
-	font.loadFromFile("assets/text/arial.ttf");
+	font.loadFromFile("assets/font.ttf");
 
 	Player1.lapText.setFont(font);
 	Player1.lapText.setCharacterSize(40);
@@ -48,19 +49,19 @@ bool level1(sf::RenderWindow *window, int *frameCounter_Player1,
 	coins->qtdCoinsCollected.setFillColor(Color::Yellow);
 	coins->qtdCoinsCollected.setPosition(410, 2);
 
-	std::vector<Hitbox> wallList_mapl = { Hitbox(Vector2f(180, 365),
-			Vector2f(600, 10)), Hitbox(Vector2f(180, 178), Vector2f(600, 10)),
-			Hitbox(Vector2f(180, 178), Vector2f(10, 195)), Hitbox(
-					Vector2f(770, 178), Vector2f(10, 195)), Hitbox(
-					Vector2f(55, 50), Vector2f(10, 450)), Hitbox(
-					Vector2f(55, 50), Vector2f(850, 10)), Hitbox(
-					Vector2f(900, 50), Vector2f(10, 450)), Hitbox(
-					Vector2f(55, 490), Vector2f(850, 10)) };
+	std::vector<Hitbox> wallList_mapl = {Hitbox(Vector2f(180, 365),
+				Vector2f(600, 10)), Hitbox(Vector2f(180, 178), Vector2f(600, 10)),
+		Hitbox(Vector2f(180, 178), Vector2f(10, 195)), Hitbox(
+				Vector2f(770, 178), Vector2f(10, 195)), Hitbox(
+				Vector2f(55, 50), Vector2f(10, 450)), Hitbox(
+				Vector2f(55, 50), Vector2f(850, 10)), Hitbox(
+				Vector2f(900, 50), Vector2f(10, 450)), Hitbox(
+				Vector2f(55, 490), Vector2f(850, 10))};
 
-	std::vector<Hitbox> checkpoints = { Hitbox(Vector2f(70, 270),
-			Vector2f(100, 10)), Hitbox(Vector2f(480, 60), Vector2f(10, 120)),
-			Hitbox(Vector2f(790, 270), Vector2f(100, 10)), Hitbox(
-					Vector2f(480, 380), Vector2f(10, 120)) };
+	std::vector<Hitbox> checkpoints = {Hitbox(Vector2f(70, 270),
+				Vector2f(100, 10)), Hitbox(Vector2f(480, 60), Vector2f(10, 120)),
+		Hitbox(Vector2f(790, 270), Vector2f(100, 10)), Hitbox(
+				Vector2f(480, 380), Vector2f(10, 120))};
 
 	Player1.lastPosition = Player1.currentPosition;
 	Player2.lastPosition = Player2.currentPosition;
@@ -91,20 +92,27 @@ bool level1(sf::RenderWindow *window, int *frameCounter_Player1,
 
 	Player1.lapText.setString(
 			"P 1 Lap " + std::to_string(Player1.lapCounter) + " / 3");
-	if (Player1.lapCounter > 3){
-					*janelaControle = 3;
-					Player1.zeraPlayer();
-					Player2.zeraPlayer();
-				}
+	if (Player1.lapCounter > 3) {
+		*janelaControle = 5;
+		Player1.zeraPlayer();
+		Player2.zeraPlayer();
+	}
 
 	Player2.lapText.setString(
 			"P 2 Lap " + std::to_string(Player2.lapCounter) + " / 3");
-	if (Player2.lapCounter > 3){
-					*janelaControle = 4;
-					Player2.zeraPlayer();
-					Player1.zeraPlayer();
-				}
-				std:cout << Player2.lapCounter << "\n";
+	if (Player2.lapCounter > 3) {
+		*janelaControle = 6;
+		Player2.zeraPlayer();
+		Player1.zeraPlayer();
+	}
+	std:cout << Player2.lapCounter << "\n";
+
+	if (coins->coinsCollected(coinsLeft) >= 5) {
+		*ganhar2 = true;
+	}
+	else if (coins->coinsCollected(coinsLeft)==10) {
+		*ganhar3 = true;
+	}
 
 	coins->qtdCoinsCollected.setString(
 			"Coins " + std::to_string(coins->coinsCollected(coinsLeft)));
