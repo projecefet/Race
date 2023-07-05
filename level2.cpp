@@ -4,7 +4,7 @@
 
 bool level2(sf::RenderWindow *window, int *frameCounter_Player1,
 		int *frameCounter_Player2, Coins *coins, int (&coinsLeft)[10],
-		int *janelaControle) {
+		int *janelaControle, bool * ganhar3) {
 
 	Texture texturaMapa;
 	texturaMapa.loadFromFile("assets/maps/2.png");
@@ -32,7 +32,7 @@ bool level2(sf::RenderWindow *window, int *frameCounter_Player1,
 	Player2.secondsCounter = *frameCounter_Player2 / 60;
 
 	sf::Font font;
-	font.loadFromFile("assets/text/arial.ttf");
+	font.loadFromFile("assets/font.ttf");
 
 	Player1.lapText.setFont(font);
 	Player1.lapText.setCharacterSize(40);
@@ -100,7 +100,7 @@ bool level2(sf::RenderWindow *window, int *frameCounter_Player1,
 	Player1.lapText.setString(
 			"P 1 Lap " + std::to_string(Player1.lapCounter) + " / 3");
 	if (Player1.lapCounter > 3) {
-		*janelaControle = 3;
+		*janelaControle = 5;
 		Player1.zeraPlayer();
 		Player2.zeraPlayer();
 	}
@@ -108,9 +108,13 @@ bool level2(sf::RenderWindow *window, int *frameCounter_Player1,
 	Player2.lapText.setString(
 			"P 2 Lap " + std::to_string(Player2.lapCounter) + " / 3");
 	if (Player2.lapCounter > 3) {
-		*janelaControle = 4;
+		*janelaControle = 6;
 		Player2.zeraPlayer();
 		Player1.zeraPlayer();
+	}
+
+	if (coins->coinsCollected(coinsLeft) == 10) {
+		*ganhar3 = true;
 	}
 
 	coins->qtdCoinsCollected.setString(
