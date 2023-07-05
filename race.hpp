@@ -1,5 +1,8 @@
 // HPP GERAL DO JOGO
 
+#ifndef RACE_HPP_
+#define RACE_HPP_
+
 #include <SFML/Graphics.hpp>
 #include <SFML/audio.hpp>
 #include <iostream>
@@ -298,7 +301,7 @@ public:
 		spriteCoin.setTexture(coinTextures[c]);
 		spriteCoin.setScale(0.01, 0.01); // Reduzir a escala da moeda
 
-		// Configurar animaÃ§Ã£o da moeda com menos frames
+		// Configurar animação da moeda com menos frames
 
 	}
 	sf::Text qtdCoinsCollected;
@@ -308,7 +311,7 @@ public:
 		std::mt19937 gen(rd());
 
 		currentFrame++;
-		// Atualizar a animaÃ§Ã£o da moeda com intervalo maior
+		// Atualizar a animação da moeda com intervalo maior
 		if (currentFrame == 3) {
 			if (c < 5) {
 				c++;
@@ -318,7 +321,7 @@ public:
 			currentFrame = 0;
 		}
 		static bool create = false;
-		static const int numCoins = 10; // Reduzir o nÃºmero de moedas
+		static const int numCoins = 10; // Reduzir o número de moedas
 		vector<int> numGerados;
 		coins.reserve(numCoins);
 
@@ -344,8 +347,8 @@ public:
 					shape.setPosition(90, 90);
 					break;
 				case 2:
-					coinSprite.setPosition(130, 300);
-					shape.setPosition(130, 300);
+					coinSprite.setPosition(130, 330);
+					shape.setPosition(130, 330);
 					break;
 				case 3:
 					coinSprite.setPosition(500, 90);
@@ -439,3 +442,5 @@ public:
 	}
 
 };
+
+#endif
