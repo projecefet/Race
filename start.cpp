@@ -1,5 +1,4 @@
 // CODIGO DA TELA INICIAL
-
 #include <SFML/Graphics.hpp>
 
 void menu(sf::RenderWindow *window, int *janelaControle) {
