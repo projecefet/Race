@@ -6,6 +6,7 @@
 #include "race.hpp"
 
 bool level1(sf::RenderWindow *window, int *frameCounter_P1_level1,
-		int *frameCounter_P2_level1, Coins *coins, int (&coinsLeft)[10] ,int* janelaControle);
+		int *frameCounter_P2_level1, Coins *coins, int (&coinsLeft)[10],
+		bool *ganhar2, bool *ganhar3, int *janelaControle);
 
 #endif
