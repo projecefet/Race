@@ -10,11 +10,6 @@
 using namespace std;
 using namespace sf;
 
-void tocarmusica(){
-
-
-}
-
 //CODIGO DA TELA DO BOWSER
 void telabowser(sf::RenderWindow *window, int *janelaControle){
 
@@ -57,7 +52,7 @@ void telabowser(sf::RenderWindow *window, int *janelaControle){
 
      if(Mouse::isButtonPressed(Mouse::Left)){
     	 if (mouseplay.getGlobalBounds().contains(cordenadatual)) {
-    		 *janelaControle = 0;
+    		 *janelaControle = 1;
          }
      }
 	window->draw(image);
@@ -105,12 +100,13 @@ void telamario(sf::RenderWindow *window, int *janelaControle){
 
      if(Mouse::isButtonPressed(Mouse::Left)){
     	 if (mouseplay.getGlobalBounds().contains(cordenadatual)) {
-    		 *janelaControle = 0;
+    		 *janelaControle = 1;
 
          }
      }
      window->draw(image);
-     tocarmusica();
+
+
 }
 
 
