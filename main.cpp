@@ -1,8 +1,10 @@
 // MAIN
 
+#include "race.hpp"
 #include "levels.hpp"
 #include "level1.hpp"
 #include "level2.hpp"
+#include "level3.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "wins.hpp"
@@ -59,13 +61,15 @@ int main() {
 
 			break;
 		case 2:
-			level1(&window, &frameCounter_Player1, &frameCounter_Player2,
+			level3(&window, &frameCounter_Player1, &frameCounter_Player2,
 					&coins, coinsLeft, &janelaControle);
 			break;
 		case 3:
 			telamario(&window, &janelaControle);
+			break;
 		case 4:
 			telabowser(&window, &janelaControle);
+			break;
 		}
 
 		window.display();
