@@ -274,6 +274,8 @@ private:
 	sf::Clock clock;
 	sf::RectangleShape shape;
 	std::vector<sf::RectangleShape> coinShapes;
+	sf::SoundBuffer buffer;
+	sf::Sound sound;
 
 	int currentFrame = 0;
 	int c = 0;
@@ -302,6 +304,8 @@ public:
 		spriteCoin.setScale(0.01, 0.01); // Reduzir a escala da moeda
 
 		// Configurar animação da moeda com menos frames
+		buffer.loadFromFile("assets/sounds/mueda.wav");
+		sound.setBuffer(buffer);
 
 	}
 	sf::Text qtdCoinsCollected;
@@ -367,8 +371,8 @@ public:
 					shape.setPosition(320, 130);
 					break;
 				case 7:
-					coinSprite.setPosition(430, 400);
-					shape.setPosition(430, 400);
+					coinSprite.setPosition(390, 400);
+					shape.setPosition(390, 400);
 					break;
 				case 8:
 					coinSprite.setPosition(700, 445);
@@ -411,6 +415,8 @@ public:
 
 		for (int i = 0; i < coinsHitbox.size(); i++) {
 			if (rect1.contains(coinShapes[i].getPosition())) {
+				coinShapes.at(i).setPosition(0, 0);
+				this->sound.play();
 				coinsLeft[i] = 0;
 			}
 		}
