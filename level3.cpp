@@ -32,7 +32,7 @@ bool level3(sf::RenderWindow *window, int *frameCounter_Player1,
 	Player2.secondsCounter = *frameCounter_Player2 / 60;
 
 	sf::Font font;
-	font.loadFromFile("assets/text/arial.ttf");
+	font.loadFromFile("assets/font.ttf");
 
 	Player1.lapText.setFont(font);
 	Player1.lapText.setCharacterSize(40);
@@ -95,14 +95,14 @@ bool level3(sf::RenderWindow *window, int *frameCounter_Player1,
 	Player1.lapText.setString(
 			"P 1 Lap " + std::to_string(Player1.lapCounter) + " / 3");
 	if (Player1.lapCounter > 3) {
-		*janelaControle = 3;
+		*janelaControle = 5;
 		Player1.zeraPlayer();
 		Player2.zeraPlayer();
 	}
 
 	Player2.lapText.setString(
 			"P 2 Lap " + std::to_string(Player2.lapCounter) + " / 3");
-	if (Player2.lapCounter > 3) {
+	if (Player2.lapCounter > 6) {
 		*janelaControle = 4;
 		Player2.zeraPlayer();
 		Player1.zeraPlayer();
