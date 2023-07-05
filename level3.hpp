@@ -1,4 +1,3 @@
-
 // LEVEL 3 HPP
 
 #ifndef LEVEL3_HPP_
